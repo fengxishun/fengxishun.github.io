@@ -116,6 +116,10 @@ button {
     margin-bottom: 20px;
 }
 
+input {
+    font-size: 50px;
+}
+
 #error {
     color: #f00;
 }
