@@ -54,9 +54,9 @@
 				
 				window.requestAnimationFrame(draw_canvas);
 								
-				var video_render = document.getElementById('video');
-				var stream3 = canvas.captureStream();
-				video_render.srcObject = stream3;
+				//var video_render = document.getElementById('video');
+				//var stream3 = canvas.captureStream();
+				//video_render.srcObject = stream3;
 				
 			  };        
             })
@@ -90,8 +90,8 @@
         </div>
 
 		  <video id="hidden_video" autoplay playsinline width="1px" height="1px"></video><br>
-		  <canvas id="hidden_canvas" width="640px" height="480px;" style="display:none"></canvas>
-          <video width="640px" height="480px;" id="video" autoplay playsinline style="border:1px;"></video>
+		  <canvas id="hidden_canvas" width="640px" height="480px;"></canvas>
+          <video width="640px" height="480px;" id="video" autoplay playsinline style="display:none"></video>
           
 
     </body>
