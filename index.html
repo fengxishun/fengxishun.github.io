@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Camera API</title>
+
+        <style>
+
+          button, input, label {
+            padding: 10px;
+            font-size: medium;
+            margin-bottom: 5px;
+          }
+
+        </style>
+        
+        <script type="text/javascript">
+			
+			var context;
+			
+			function draw_canvas() {
+				var video = document.getElementById('hidden_video');
+				context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+				
+				var watermark = document.getElementById('watermark_enabled');
+				if (watermark.checked === true) {
+					context.fillText((new Date()).getTime(), 5, 24);
+				}
+				
+				window.requestAnimationFrame(draw_canvas);
+			}
+         
+	      function doClick() {
+          
+			var video = document.getElementById('hidden_video');			
+            var constraints = {
+              	audio: false,
+				video: {
+					width: 640,
+  				  	height: 480
+				}
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+              video.srcObject = stream;
+			  video.onloadedmetadata = function(e) {
+			    video.play();
+				
+				var canvas = document.getElementById('hidden_canvas');
+				context = canvas.getContext('2d');
+				context.fillStyle = "white";
+				context.font = 'bold 24px serif';
+				
+				window.requestAnimationFrame(draw_canvas);
+								
+				var video_render = document.getElementById('video');
+				var stream3 = canvas.captureStream();
+				video_render.srcObject = stream3;
+				
+			  };        
+            })
+            .catch(function(error) {
+				console.error(error);
+            });
+          }
+          
+			function doClose() {
+				var video = document.getElementById('hidden_video');
+				const stream = video.srcObject;
+				const tracks = stream.getTracks();
+
+				tracks.forEach(function(track) {
+					track.stop();
+				});
+
+				video.srcObject = null;
+			}
+          
+        </script>
+
+    </head>
+
+    <body>
+
+        <div> 
+          <button onclick="doClick()">open camera</button>
+          <button onclick="doClose()">close camera</button>
+          <input type="checkbox" id="watermark_enabled" value="true"><label>watermark</label>
+        </div>
+
+		  <video id="hidden_video" autoplay playsinline width="1px" height="1px"></video><br>
+		  <canvas id="hidden_canvas" width="640px" height="480px;" style="display:none"></canvas>
+          <video width="640px" height="480px;" id="video" autoplay playsinline style="border:1px;"></video>
+          
+
+    </body>
+</html>
