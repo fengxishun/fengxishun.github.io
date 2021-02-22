@@ -66,6 +66,7 @@
           }
           
 			function doClose() {
+				alert(navigator.userAgent);
 				var video = document.getElementById('hidden_video');
 				const stream = video.srcObject;
 				const tracks = stream.getTracks();
